@@ -11,16 +11,16 @@ class CheckinTest(TestCaseEx):
         self.commits = []
     def checkin(self):
         self.expectedExec.insert(1,
-            (['git', 'log', '--first-parent', '--reverse', '--pretty=format:%H%n%s%n%b', '%s..' % CI_TAG], '\n'.join(self.commits)),
+            (['git', 'log', '--first-parent', '--reverse', '--pretty=format:%H%n%s%n%b', '{0!s}..'.format(CI_TAG)], '\n'.join(self.commits)),
         )
         checkin.main()
         self.assert_(not len(self.expectedExec))
     def commit(self, commit, message, files):
         nameStatus = []
         for type, file in files:
-            nameStatus.append('%s\0%s' % (type, file))
+            nameStatus.append('{0!s}\0{1!s}'.format(type, file))
         self.expectedExec.extend([
-            (['git', 'diff', '--name-status', '-M', '-z', '%s^..%s' % (commit, commit)], '\n'.join(nameStatus)),
+            (['git', 'diff', '--name-status', '-M', '-z', '{0!s}^..{1!s}'.format(commit, commit)], '\n'.join(nameStatus)),
         ])
         types = {'M': MockModfy, 'A': MockAdd, 'D': MockDelete, 'R': MockRename}
         self.expectedExec.extend([
@@ -53,7 +53,7 @@ class CheckinTest(TestCaseEx):
 
 class MockStatus:
     def lsTree(self, id, file, hash):
-        return (['git', 'ls-tree', '-z', id, file], '100644 blob %s %s' % (hash, file))
+        return (['git', 'ls-tree', '-z', id, file], '100644 blob {0!s} {1!s}'.format(hash, file))
     def catFile(self, file, hash):
         blob = "blob"
         return [
