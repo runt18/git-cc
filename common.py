@@ -52,7 +52,7 @@ def cc_exec(cmd, **args):
 def popen(exe, cmd, cwd, env=None, decode=True, errors=True, encoding=None):
     cmd.insert(0, exe)
     if DEBUG:
-        f = lambda a: a if not a.count(' ') else '"%s"' % a
+        f = lambda a: a if not a.count(' ') else '"{0!s}"'.format(a)
         debug('> ' + ' '.join(map(f, cmd)))
     pipe = Popen(cmd, cwd=cwd, stdout=PIPE, stderr=PIPE, env=env)
     (stdout, stderr) = pipe.communicate()
@@ -147,11 +147,11 @@ def removeFile(file):
 
 def validateCC():
     if not CC_DIR:
-        fail("No 'clearcase' variable found for branch '%s'" % CURRENT_BRANCH)
+        fail("No 'clearcase' variable found for branch '{0!s}'".format(CURRENT_BRANCH))
         
 def path(path, args='-m'):
     if IS_CYGWIN:
-        return os.popen('cygpath %s "%s"' %(args, path)).readlines()[0].strip()
+        return os.popen('cygpath {0!s} "{1!s}"'.format(args, path)).readlines()[0].strip()
     else:
         return path
 

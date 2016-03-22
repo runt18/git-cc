@@ -50,7 +50,7 @@ def main(force=False, no_deliver=False, initial=False, all=False, cclabel=''):
         reset.main('HEAD')
 
 def getStatuses(id, initial):
-    cmd = ['diff','--name-status', '-M', '-z', '--ignore-submodules', '%s^..%s' % (id, id)]
+    cmd = ['diff','--name-status', '-M', '-z', '--ignore-submodules', '{0!s}^..{1!s}'.format(id, id)]
     if initial:
         cmd = cmd[:-1]
         cmd[0] = 'show'
@@ -130,6 +130,6 @@ class Transaction(ITransaction):
         gitid = getBlob(self.base, file)
         if ccid != gitid:
             if not IGNORE_CONFLICTS:
-                raise Exception('File has been modified: %s. Try rebasing.' % file)
+                raise Exception('File has been modified: {0!s}. Try rebasing.'.format(file))
             else:
                 print ('WARNING: Detected possible confilct with',file,'...ignoring...')

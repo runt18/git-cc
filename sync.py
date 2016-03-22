@@ -27,7 +27,7 @@ def main(cache=False):
 
 def copy(file):
     newFile = join(GIT_DIR, file)
-    debug('Copying %s' % newFile)
+    debug('Copying {0!s}'.format(newFile))
     mkdirs(newFile)
     shutil.copy(join(CC_DIR, file), newFile)
     os.chmod(newFile, stat.S_IREAD | stat.S_IWRITE)

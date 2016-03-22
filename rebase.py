@@ -74,7 +74,7 @@ def doCommit(cs):
 
 def getSince():
     try:
-        date = git_exec(['log', '-n', '1', '--pretty=format:%ai', '%s' % CC_TAG])
+        date = git_exec(['log', '-n', '1', '--pretty=format:%ai', '{0!s}'.format(CC_TAG)])
         date = date[:19]
         date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
         date = date + timedelta(seconds=1)
@@ -150,9 +150,9 @@ def commit(list):
 
 def printGroups(groups):
     for cs in groups:
-        print('%s "%s"' % (cs.user, cs.subject))
+        print('{0!s} "{1!s}"'.format(cs.user, cs.subject))
         for file in cs.files:
-            print("  %s" % file.file)
+            print("  {0!s}".format(file.file))
 
 class Group:
     def __init__(self, cs):
@@ -176,7 +176,7 @@ class Group:
         def getUserEmail(user):
             email = search('<.*@.*>', str(user))
             if email == None:
-                return '<%s@%s>' % (user.lower().replace(' ','.').replace("'", ''), mailSuffix)
+                return '<{0!s}@{1!s}>'.format(user.lower().replace(' ','.').replace("'", ''), mailSuffix)
             else:
                 return email.group(0)
         files = []
@@ -198,7 +198,7 @@ class Group:
                 raise
 
 def cc_file(file, version):
-    return '%s@@%s' % (file, version)
+    return '{0!s}@@{1!s}'.format(file, version)
 
 class Changeset(object):
     def __init__(self, split, comment):
@@ -223,7 +223,7 @@ class Changeset(object):
         except:
             if len(file) < 200:
                 raise
-            debug("Ignoring %s as it may be related to https://github.com/charleso/git-cc/issues/9" % file)
+            debug("Ignoring {0!s} as it may be related to https://github.com/charleso/git-cc/issues/9".format(file))
         if not exists(toFile):
             git_exec(['checkout', 'HEAD', toFile])
         else:
@@ -259,7 +259,7 @@ class Uncataloged(Changeset):
 
                 versions = self.checkin_versions(actual_versions)
                 if not versions:
-                    print("It appears that you may be missing a branch in the includes section of your gitcc config for file '%s'." % added)
+                    print("It appears that you may be missing a branch in the includes section of your gitcc config for file '{0!s}'.".format(added))
                     continue
                 self._add(added, versions[0][2].strip())
 
