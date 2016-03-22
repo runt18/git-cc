@@ -56,7 +56,7 @@ def popen(exe, cmd, cwd, env=None, decode=True, errors=True, encoding=None):
         debug('> ' + ' '.join(map(f, cmd)))
     pipe = Popen(cmd, cwd=cwd, stdout=PIPE, stderr=PIPE, env=env)
     (stdout, stderr) = pipe.communicate()
-    if encoding == None:
+    if encoding is None:
         encoding = ENCODING
     if errors and pipe.returncode > 0:
         raise Exception(decodeString(encoding, stderr + stdout))
