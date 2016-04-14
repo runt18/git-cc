@@ -175,7 +175,7 @@ class Group:
             return str(user).split(' <')[0]
         def getUserEmail(user):
             email = search('<.*@.*>', str(user))
-            if email == None:
+            if email is None:
                 return '<{0!s}@{1!s}>'.format(user.lower().replace(' ','.').replace("'", ''), mailSuffix)
             else:
                 return email.group(0)
@@ -194,7 +194,7 @@ class Group:
         try:
             git_exec(['commit', '-m', comment.encode(ENCODING)], env=env)
         except Exception as e:
-            if search('nothing( added)? to commit', e.args[0]) == None:
+            if search('nothing( added)? to commit', e.args[0]) is None:
                 raise
 
 def cc_file(file, version):
